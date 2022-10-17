@@ -37,6 +37,9 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
+        //Onboarding section The onboarding screen allows users to customize their experience by selecting topics.
+
+        //Bottom Navigation
         navigation(
             route = MainDestinations.COURSES_ROUTE,
             startDestination = CourseTabs.FEATURED.route
