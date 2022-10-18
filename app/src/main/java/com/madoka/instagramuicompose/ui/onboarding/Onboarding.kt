@@ -14,15 +14,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Explore
-import androidx.compose.material.icons.rounded.ExploreOff
-import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -34,10 +31,9 @@ import com.madoka.instagramuicompose.ui.theme.OwlTheme
 import com.madoka.instagramuicompose.ui.theme.YellowTheme
 import com.madoka.instagramuicompose.ui.utils.NetworkImage
 import com.madoka.mypokedexapp.ui.theme.pink500
-import java.util.Collections.max
 import kotlin.math.max
 
-//Onboarding section The onboarding screen allows users to customize their experience by selecting topics.
+//On-boarding section The on-boarding screen allows users to customize their experience by selecting topics.
 @Composable
 fun Onboarding(onboardingComplete: () -> Unit) {
     YellowTheme {
@@ -140,21 +136,22 @@ private class TopicChipTransition(
 @Composable
 private fun topicChipTransition(topicSelected: Boolean): TopicChipTransition {
     val transition = updateTransition(
-        targetState = if (topicSelected) SelectionState.Selected else SelectionState.Unselected
+        targetState = if (topicSelected) SelectionState.Selected else SelectionState.Unselected,
+        label = ""
     )
-    val cornerRadius = transition.animateDp { state ->
+    val cornerRadius = transition.animateDp(label = "") { state ->
         when (state) {
             SelectionState.Unselected -> 0.dp
             SelectionState.Selected -> 28.dp
         }
     }
-    val selectedAlpha = transition.animateFloat { state ->
+    val selectedAlpha = transition.animateFloat(label = "") { state ->
         when (state) {
             SelectionState.Unselected -> 0f
             SelectionState.Selected -> 0.8f
         }
     }
-    val checkScale = transition.animateFloat { state ->
+    val checkScale = transition.animateFloat(label = "") { state ->
         when (state) {
             SelectionState.Unselected -> 0.6f
             SelectionState.Selected -> 1f
@@ -294,17 +291,17 @@ private fun StaggeredGrid(
 
 
 
-
-@Preview(name = "Onboarding")
-@Composable
-private fun OnboardingPreview() {
-    Onboarding(onboardingComplete = { })
-}
-
-@Preview("Topic Chip")
-@Composable
-private fun TopicChipPreview() {
-    YellowTheme {
-        TopicChip(topics.first())
-    }
-}
+//
+//@Preview(name = "Onboarding")
+//@Composable
+//private fun OnboardingPreview() {
+//    Onboarding(onboardingComplete = { })
+//}
+//
+//@Preview("Topic Chip")
+//@Composable
+//private fun TopicChipPreview() {
+//    YellowTheme {
+//        TopicChip(topics.first())
+//    }
+//}
