@@ -2,36 +2,31 @@ package com.madoka.instagramuicompose.ui.courses
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.madoka.instagramuicompose.R
+import com.madoka.instagramuicompose.ui.MainDestinations
 
 fun NavGraphBuilder.Tabs(
     //onCourseSelected: (Long, NavBackStackEntry) -> Unit,
-     //onboardingComplete: State<Boolean>, // https://issuetracker.google.com/174783110
+    onboardingComplete: State<Boolean>,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     composable(CourseTabs.FEATURED.route) { from ->
-        // Show onboarding instead if not shown yet.
-        //   navController.navigate(MainDestinations.ONBOARDING_ROUTE)
-        FeaturedCourses()
+        /** Show on-boarding instead if not shown yet.*/
+        LaunchedEffect(onboardingComplete) {
+            if (!onboardingComplete.value) {
+                navController.navigate(MainDestinations.ONBOARDING_ROUTE)
+            }
+        }
+        if (onboardingComplete.value) {  /* Avoid glitch when showing on-boarding */
+            FeaturedCourses()
+        }
     }
 
     composable(CourseTabs.MY_COURSES.route) {
@@ -46,27 +41,27 @@ fun NavGraphBuilder.Tabs(
 /**
 @Composable
 fun CoursesAppBar() {
-    TopAppBar(
-        elevation = 0.dp,
-        modifier = Modifier.height(80.dp)
-    ) {
-        Image(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterVertically),
-            painter = painterResource(id = R.drawable.ic_lockup_white),
-            contentDescription = null
-        )
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { /* todo */ }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.AccountCircle,
-                contentDescription = stringResource(R.string.label_profile)
-            )
-        }
-    }
+TopAppBar(
+elevation = 0.dp,
+modifier = Modifier.height(80.dp)
+) {
+Image(
+modifier = Modifier
+.padding(16.dp)
+.align(Alignment.CenterVertically),
+painter = painterResource(id = R.drawable.ic_lockup_white),
+contentDescription = null
+)
+IconButton(
+modifier = Modifier.align(Alignment.CenterVertically),
+onClick = { /* todo */ }
+) {
+Icon(
+imageVector = Icons.Filled.AccountCircle,
+contentDescription = stringResource(R.string.label_profile)
+)
+}
+}
 }  **/
 
 enum class CourseTabs(

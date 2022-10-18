@@ -1,15 +1,20 @@
 package com.madoka.instagramuicompose.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.madoka.instagramuicompose.ui.courses.CourseTabs
 import com.madoka.instagramuicompose.ui.courses.Tabs
+import com.madoka.instagramuicompose.ui.onboarding.Onboarding
 
 
 /**
@@ -31,13 +36,33 @@ fun NavGraph(
     startDestination: String = MainDestinations.COURSES_ROUTE,
     showOnboardingInitially: Boolean = true
 ) {
-   // val actions = remember(navController) { MainActions(navController) }
+    // Onboarding could be read from shared preferences.
+    val onboardingComplete = remember(showOnboardingInitially) {
+        mutableStateOf(!showOnboardingInitially)
+    }
+
+    val actions = remember(navController) { MainActions(navController) }
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        //Onboarding section The onboarding screen allows users to customize their experience by selecting topics.
+        /* On-boarding section The on-boarding screen allows users to customize their experience by selecting topics.**/
+        composable(MainDestinations.ONBOARDING_ROUTE) {
+            /* Intercept back in On-boarding: make it finish the activity*/
+            BackHandler {
+                finishActivity()
+            }
+
+            Onboarding(
+                onboardingComplete = {
+                    /* Set the flag so that onboarding is not shown next time.*/
+                    onboardingComplete.value = true
+                    actions.onboardingComplete()
+                }
+            )
+        }
+
 
         //Bottom Navigation
         navigation(
@@ -46,11 +71,19 @@ fun NavGraph(
         ) {
             //Bottom Nav
            Tabs(
+               onboardingComplete = onboardingComplete,
                 navController = navController,
                 modifier = modifier
             )
         }
 
+    }
+}
+
+
+class MainActions(navController: NavHostController) {
+    val onboardingComplete: () -> Unit = {
+        navController.popBackStack()
     }
 }
 
