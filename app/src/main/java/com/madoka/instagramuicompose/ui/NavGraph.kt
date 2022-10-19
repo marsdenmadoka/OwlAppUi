@@ -71,6 +71,7 @@ fun NavGraph(
         ) {
             //Bottom Nav
            Tabs(
+               onCourseSelected = actions.openCourse,
                onboardingComplete = onboardingComplete,
                 navController = navController,
                 modifier = modifier
@@ -81,11 +82,31 @@ fun NavGraph(
 }
 
 
+/**
+ * Models the navigation actions in the app.
+ */
 class MainActions(navController: NavHostController) {
     val onboardingComplete: () -> Unit = {
         navController.popBackStack()
     }
+
+
+    // Used from COURSES_ROUTE
+    val openCourse = { newCourseId: Long, from: NavBackStackEntry ->
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.COURSE_DETAIL_ROUTE}/$newCourseId")
+        }
+    }
 }
+
+/**
+ * If the lifecycle is not resumed it means this NavBackStackEntry already processed a nav event.
+ *
+ * This is used to de-duplicate navigation events.
+ */
+private fun NavBackStackEntry.lifecycleIsResumed() =
+    this.lifecycle.currentState == Lifecycle.State.RESUMED
 
 
 
