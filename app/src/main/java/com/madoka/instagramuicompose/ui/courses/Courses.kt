@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import com.madoka.instagramuicompose.R
 import com.madoka.instagramuicompose.ui.MainDestinations
 import com.madoka.instagramuicompose.ui.model.courses
+import com.madoka.instagramuicompose.ui.model.topics
 import com.madoka.instagramuicompose.ui.theme.BlueTheme
 
 fun NavGraphBuilder.Tabs(
@@ -41,7 +42,11 @@ fun NavGraphBuilder.Tabs(
             }
         }
         if (onboardingComplete.value) {  /* Avoid glitch when showing on-boarding */
-            FeaturedCourses()
+            FeaturedCourses(
+                courses = courses,
+                selectCourse = { id -> onCourseSelected(id, from) },
+                modifier = modifier
+            )
         }
     }
 
@@ -54,7 +59,7 @@ fun NavGraphBuilder.Tabs(
     }
 
     composable(CourseTabs.SEARCH.route) {
-        SearchCourses()
+        SearchCourses(topics, modifier)
     }
 }
 
