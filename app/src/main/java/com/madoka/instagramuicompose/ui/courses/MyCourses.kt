@@ -1,22 +1,13 @@
 package com.madoka.instagramuicompose.ui.courses
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.madoka.instagramuicompose.R
 import com.madoka.instagramuicompose.ui.common.CourseListItem
 import com.madoka.instagramuicompose.ui.model.Course
 import com.madoka.instagramuicompose.ui.model.courses
@@ -66,30 +57,7 @@ fun MyCourse(
         )
     }
 }
-@Composable
-fun CoursesAppBar() {
-    TopAppBar(
-        elevation = 0.dp,
-        modifier = Modifier.height(80.dp)
-    ) {
-        Image(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterVertically),
-            painter = painterResource(id = R.drawable.ic_lockup_white),
-            contentDescription = null
-        )
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { /* todo */ }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.AccountCircle,
-                contentDescription = "Profile "//stringResource(R.string.label_profile)
-            )
-        }
-    }
-}
+
 
 @Preview(name = "My Courses")
 @Composable
