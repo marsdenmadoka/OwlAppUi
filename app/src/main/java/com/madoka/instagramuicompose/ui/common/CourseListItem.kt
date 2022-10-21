@@ -45,7 +45,7 @@ fun CourseListItem(
     ) {
         Row(modifier = Modifier.clickable(onClick = onClick)) {
             NetworkImage(
-                url = OwlTheme.images.lockupLogo.toString(),//course.thumbUrl,
+                url = course.thumbUrl,
                 contentDescription = null,
                 modifier = Modifier.aspectRatio(1f)
             )

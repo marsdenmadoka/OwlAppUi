@@ -41,8 +41,7 @@ fun OwlBottomBar( navController: NavController, tabs: Array<CourseTabs>) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val currentRoute = navBackStackEntry?.destination?.route
-        //?: CourseTabs.FEATURED.route
+    val currentRoute = navBackStackEntry?.destination?.route ?: CourseTabs.FEATURED.route
 
     val routes = remember { CourseTabs.values().map { it.route } }
 

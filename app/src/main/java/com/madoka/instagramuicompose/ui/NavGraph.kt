@@ -8,10 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.madoka.instagramuicompose.ui.MainDestinations.COURSE_DETAIL_ID_KEY
+import com.madoka.instagramuicompose.ui.course.CourseDetails
 import com.madoka.instagramuicompose.ui.courses.CourseTabs
 import com.madoka.instagramuicompose.ui.courses.Tabs
 import com.madoka.instagramuicompose.ui.onboarding.Onboarding
@@ -62,19 +66,33 @@ fun NavGraph(
                 }
             )
         }
-
-
         //Bottom Navigation
         navigation(
             route = MainDestinations.COURSES_ROUTE,
             startDestination = CourseTabs.FEATURED.route
         ) {
-            //Bottom Nav
            Tabs(
-               onCourseSelected = actions.openCourse,
+              onCourseSelected = actions.openCourse,//when a course in the @composable Activity is selected ..not a tab
                onboardingComplete = onboardingComplete,
                 navController = navController,
                 modifier = modifier
+            )
+        }
+
+        composable(
+            "${MainDestinations.COURSE_DETAIL_ROUTE}/{$COURSE_DETAIL_ID_KEY}",
+            arguments = listOf(
+                navArgument(COURSE_DETAIL_ID_KEY) { type = NavType.LongType }
+            )
+        ) { backStackEntry: NavBackStackEntry ->
+            val arguments = requireNotNull(backStackEntry.arguments)
+            val currentCourseId = arguments.getLong(COURSE_DETAIL_ID_KEY)
+            CourseDetails(
+                courseId = currentCourseId,
+                selectCourse = { newCourseId ->
+                    actions.relatedCourse(newCourseId, backStackEntry)
+                },
+                upPress = { actions.upPress(backStackEntry) }
             )
         }
 
@@ -98,6 +116,22 @@ class MainActions(navController: NavHostController) {
             navController.navigate("${MainDestinations.COURSE_DETAIL_ROUTE}/$newCourseId")
         }
     }
+    // Used from COURSE_DETAIL_ROUTE
+    val relatedCourse = { newCourseId: Long, from: NavBackStackEntry ->
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.COURSE_DETAIL_ROUTE}/$newCourseId")
+        }
+    }
+
+    // Used from COURSE_DETAIL_ROUTE
+    val upPress: (from: NavBackStackEntry) -> Unit = { from ->
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigateUp()
+        }
+    }
+
 }
 
 /**

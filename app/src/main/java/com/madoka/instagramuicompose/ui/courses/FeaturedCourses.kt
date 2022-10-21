@@ -57,7 +57,7 @@ fun FeaturedCourses(
 @Composable
 fun FeaturedCourse(
     course: Course,
-    selectCourse: (Long) -> Unit,
+   selectCourse: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(

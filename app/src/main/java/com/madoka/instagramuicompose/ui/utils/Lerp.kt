@@ -1,5 +1,8 @@
 package com.madoka.instagramuicompose.ui.utils
 
+import androidx.annotation.FloatRange
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp as lerpColor
 /**
  * Linearly interpolate between two values
  */

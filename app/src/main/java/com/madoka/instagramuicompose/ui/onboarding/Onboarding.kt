@@ -180,7 +180,7 @@ private fun TopicChip(topic: Topic) {
         Row(modifier = Modifier.toggleable(value = selected, onValueChange = onSelected)) {
             Box {
                 NetworkImage(
-                    url = OwlTheme.images.lockupLogo.toString(),//topic.imageUrl,//OwlTheme.images.lockupLogo.toString()  ,
+                    url = topic.imageUrl,//OwlTheme.images.lockupLogo.toString()  ,
                     contentDescription = null,
                     modifier = Modifier
                         .size(width = 72.dp, height = 72.dp)

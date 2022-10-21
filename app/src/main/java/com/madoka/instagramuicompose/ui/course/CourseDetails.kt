@@ -71,11 +71,13 @@ import androidx.compose.ui.unit.dp
 import com.madoka.instagramuicompose.R
 import com.madoka.instagramuicompose.ui.common.CourseListItem
 import com.madoka.instagramuicompose.ui.common.OutlinedAvatar
-import com.madoka.instagramuicompose.ui.model.Course
-import com.madoka.instagramuicompose.ui.model.CourseRepo
+import com.madoka.instagramuicompose.ui.model.*
 import com.madoka.instagramuicompose.ui.theme.BlueTheme
 import com.madoka.instagramuicompose.ui.theme.PinkTheme
 import com.madoka.instagramuicompose.ui.utils.NetworkImage
+import com.madoka.instagramuicompose.ui.utils.lerp
+import com.madoka.instagramuicompose.ui.utils.scrim
+import com.madoka.mypokedexapp.ui.theme.pink500
 import java.util.Locale
 import kotlinx.coroutines.launch
 
